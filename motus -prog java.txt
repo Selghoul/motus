@@ -1,0 +1,110 @@
+//Déclaration de vartiables indicées
+				String Tab[];
+				String TabProp[];
+			//Déclaration de vartiables
+				String Mot, joueurProp, nom1, nom2;
+				int essai, taille, coup, pos, tailleJr, M;
+				
+		
+			//Contrôle de saisie
+				nom1 = Saisie.lire_String("Bonjour ! Vous participé à notre jeu Motus, votre mission est de saisir un mot qui sera caché ensuite,"
+						+ " un joueur devra trouver ce mot.\nMais d’abord veuillez entrer votre prénom : ");
+				
+				Mot = Saisie.lire_String("Super ! " + nom1 + " quel est le mot que le joueur doit trouver ? Attention le mot doit être supérieur à 2");
+				taille = Mot.length();
+				
+				
+			//Boucle controlant la saisie du premier utilisateur
+				while (taille <= 2)
+					{
+					Mot = Saisie.lire_String("Erreur de saisie , votre mot doit être supèrieur à 2, recommencez !");
+					taille = Mot.length();
+					}
+					Tab = new String [taille];
+					TabProp = new String [taille];
+					
+			
+				for (M = 0; M < taille; M++)
+					{
+						Tab[M] = Mot.substring(M, M + 1);
+					}
+				
+				nom2 = Saisie.lire_String("Bonjour ! Vous jouez au Motus, votre but est de trouver le mot caché par " + nom1 + " en un nombre d’essai déterminé."
+						+ " \nVous avez la possibilité de stopper le jeu à n’importe quel moment.\nMais d’abord veuillez entrer votre prénom : ");
+				
+				essai = taille - 2;
+				
+				joueurProp = Saisie.lire_String("Super ! " + nom2 + " veuillez saisir votre proposition ou entrez SOL pour découvrir le mot."
+						+ " Attention vous avez " + essai + " essais");
+				tailleJr = joueurProp.length();
+				
+				
+				while ((tailleJr!=taille) && (joueurProp.equals("SOL") == false))
+				{
+					joueurProp = Saisie.lire_String("Votre mot doit contenir le même nombre de lettre que le mot à trouver, recommencez ! \n"
+							+ "Vous pouvez toujours entrer SOL si vous le souhaitez pour arreter le jeu et decouvrir le mot" );
+					tailleJr = joueurProp.length();
+				}
+				
+				coup = 0;
+				while ((joueurProp.equals(Mot)==false) && (joueurProp.equals("SOL") == false) && (coup < essai))
+				{
+					pos = 0;
+					
+					for (M = 0; M < tailleJr; M++)
+					{
+						if (Mot.substring(M,M+1).equals(joueurProp.substring(M, M + 1)))
+						{
+						pos = pos + 1;
+						TabProp[M] = joueurProp.substring(M, M + 1);
+						}
+						else 
+							{
+							TabProp[M] = "_";
+							}
+						
+					}
+					
+					coup = coup + 1;
+					System.out.println("Vous avez "+ pos + " bonne(s) lettre(s) à la même position.");
+					System.out.println("Voici vos lettres et leur(s) position(s)");
+					
+					for (M = 0; M < tailleJr; M++) 
+					{
+						System.out.print(TabProp[M]);
+					}
+					System.out.println();
+					
+					if ((coup<essai)&&(joueurProp.equals ("SOL")==false))
+					{
+						joueurProp = Saisie.lire_String("Veuillez réessayer ou entrez SOL pour découvrir le mot. il vous reste " + (essai - coup) + " tentative !");
+						tailleJr = joueurProp.length();
+					
+					while (tailleJr != taille && (joueurProp.equals("SOL") == false))
+						{
+							joueurProp = Saisie.lire_String("Votre mot doit contenir le même nombre de lettre que le mot à trouver, recommencez ! \n"
+									+ "Vous pouvez toujours entrer SOL pour découvrir le mot à trouver.");
+							tailleJr = joueurProp.length();
+						}
+					}
+						
+					
+				}
+				
+				if ((joueurProp.equals ("SOL")==true))
+				{
+					System.out.print("Dommage ! Le mot à trouver était "+ Mot);
+					
+				}
+				else if(coup == essai)
+				{
+					 System.out.print("C'est perdu " + nom2 + " :( \n"
+					 		+ "Vous avez épuisé votre stock de " + essai + " tentative. Retentez votre chance un autre jour.");
+				}
+							
+				else 
+				{
+					coup = coup + 1;
+					System.out.println("Félicitation ! Vous avez trouvé en " + coup + " tentative. Le Motus est réussi ! ");
+					System.out.println("Merci de votre participation.");
+				}
